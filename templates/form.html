@@ -58,11 +58,12 @@
     {% if short_link %}
     <div class="mt-4">
 <h2>Generated Short Link:</h2>
-<p>
-    {# Give the link an ID so JavaScript can find it #}
-    <a id="short-link-text" href="{{ short_link }}" target="_blank">{{ short_link }}</a>
-    {# Add the copy button next to the link #}
-    <button class="btn btn-secondary" id="copy-button" type="button">Copy</button>
+<p> {/* Keep the paragraph for structure if needed, or remove it */}
+    <label for="short-link-display" class="form-label visually-hidden">Generated Short Link:</label> {/* Added label for accessibility */}
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" value="{{ short_link }}" id="short-link-display" readonly aria-label="Generated short link" >
+        <button class="btn btn-outline-secondary" type="button" id="copy-button">Copy</button>
+    </div>
 </p>
 
 {% if utm_link %}
@@ -74,26 +75,32 @@
 {# Add JavaScript at the end of the body #}
     
 <script>
-    // Find the button and the link elements by their IDs
     const copyButton = document.getElementById('copy-button');
-    const linkTextElement = document.getElementById('short-link-text');
+    // Changed ID to match the input field
+    const linkInputElement = document.getElementById('short-link-display');
 
-    // Only add the event listener if the button exists
-    if (copyButton && linkTextElement) {
+    // Check if both elements exist
+    if (copyButton && linkInputElement) {
         copyButton.addEventListener('click', function() {
-            // Get the URL from the link's href attribute
-            const linkToCopy = linkTextElement.href;
+            // Read the value from the input field
+            const linkToCopy = linkInputElement.value;
 
-            // Use the Clipboard API to copy the text
+            // Select the text inside the input (optional, good UX)
+            linkInputElement.select();
+            linkInputElement.setSelectionRange(0, 99999); // For mobile devices
+
             navigator.clipboard.writeText(linkToCopy).then(function() {
-                // Success! Change button text temporarily
+                // Success feedback
                 const originalText = copyButton.textContent;
                 copyButton.textContent = 'Copied!';
+                copyButton.classList.remove('btn-outline-secondary'); // Optional: Change style on success
+                copyButton.classList.add('btn-success');
                 setTimeout(function() {
                     copyButton.textContent = originalText;
-                }, 1500); // Change back after 1.5 seconds
+                    copyButton.classList.remove('btn-success'); // Revert style
+                    copyButton.classList.add('btn-outline-secondary');
+                }, 2000); // Keep "Copied!" for 2 seconds
             }).catch(function(err) {
-                // Error handling (optional)
                 console.error('Failed to copy link: ', err);
                 alert('Failed to copy link. Please copy it manually.');
             });
