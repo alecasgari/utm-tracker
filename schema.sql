@@ -1,0 +1,20 @@
+DROP TABLE IF EXISTS links;
+
+CREATE TABLE links (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  original_url TEXT NOT NULL,
+  utm_source TEXT NOT NULL,
+  utm_medium TEXT NOT NULL,
+  utm_campaign TEXT NOT NULL,
+  utm_term TEXT,
+  utm_content TEXT,
+  short_code TEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE clicks (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  link_id INTEGER NOT NULL,
+  clicked_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (link_id) REFERENCES links (id)
+);

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UTM Link Generator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    
+    <style>
+        body {
+            font-family: sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-body-tertiary">
+    <div class="container py-4">
+    <h1 class="mb-4">UTM Link Generator</h1>
+    <div class="card">
+
+    <div class="card mb-4">
+        <div class="caed-header mb-4 mt-2">Enter UTM Details</div>
+    <div class="card-body">
+    <form action="/" method="post">
+        <div class="mb-3">
+        <label class="form-label" for="website_url">Website URL:</label>
+        <input class="form-control" type="url" id="website_url" name="website_url" required>
+        </div>
+
+        <div class="mb-3">
+        <label class="form-label" for="utm_source">Campaign Source (utm_source):</label>
+        <input class="form-control" type="text" id="utm_source" name="utm_source" required>
+        </div>
+
+        <div class="mb-3">
+        <label class="form-label" class="form-label" for="utm_medium">Campaign Medium (utm_medium):</label>
+        <input class="form-control" type="text" id="utm_medium" name="utm_medium" required>
+        </div>
+
+        <div class="mb-3">
+        <label class="form-label" for="utm_campaign">Campaign Name (utm_campaign):</label>
+        <input class="form-control" type="text" id="utm_campaign" name="utm_campaign" required>
+        </div>
+
+        <div class="mb-3">
+        <label class="form-label" for="utm_term">Campaign Term (utm_term):</label>
+        <input class="form-control" type="text" id="utm_term" name="utm_term">
+        </div>
+
+        <div class="mb-3">
+        <label class="form-label" for="utm_content">Campaign Content (utm_content):</label>
+        <input class="form-control" type="text" id="utm_content" name="utm_content">
+        </div>
+        <button class="btn btn-primary py-2" type="submit">Generate UTM Link</button>
+    </form>
+    </div>
+    </div>
+
+    {% if short_link %}
+    <div class="mt-4">
+<h2>Generated Short Link:</h2>
+<p>
+    {# Give the link an ID so JavaScript can find it #}
+    <a id="short-link-text" href="{{ short_link }}" target="_blank">{{ short_link }}</a>
+    {# Add the copy button next to the link #}
+    <button class="btn btn-secondary" id="copy-button" type="button">Copy</button>
+</p>
+
+{% if utm_link %}
+    <p>(Original UTM Link: <a href="{{ utm_link }}" target="_blank">{{ utm_link }}</a>)</p>
+{% endif %}
+
+{% endif %}
+</div>
+{# Add JavaScript at the end of the body #}
+    
+<script>
+    // Find the button and the link elements by their IDs
+    const copyButton = document.getElementById('copy-button');
+    const linkTextElement = document.getElementById('short-link-text');
+
+    // Only add the event listener if the button exists
+    if (copyButton && linkTextElement) {
+        copyButton.addEventListener('click', function() {
+            // Get the URL from the link's href attribute
+            const linkToCopy = linkTextElement.href;
+
+            // Use the Clipboard API to copy the text
+            navigator.clipboard.writeText(linkToCopy).then(function() {
+                // Success! Change button text temporarily
+                const originalText = copyButton.textContent;
+                copyButton.textContent = 'Copied!';
+                setTimeout(function() {
+                    copyButton.textContent = originalText;
+                }, 1500); // Change back after 1.5 seconds
+            }).catch(function(err) {
+                // Error handling (optional)
+                console.error('Failed to copy link: ', err);
+                alert('Failed to copy link. Please copy it manually.');
+            });
+        });
+    }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+
+</body>
+</html>
