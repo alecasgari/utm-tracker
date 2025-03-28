@@ -12,8 +12,8 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'c>CJ`Ni$/lpx4"r'  # Replace with a strong secret key!
 
 # Initialize the database (create tables if they don't exist)
-with app.app_context():
-    init_db()
+#with app.app_context():
+#init_db()
 
 @app.route("/", methods=["GET", "POST"])
 def index():
