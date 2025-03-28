@@ -1,0 +1,23 @@
+# Virtual Environment
+venv/
+.venv/
+env/
+*/activate
+*.pyc
+__pycache__/
+
+# Databases
+*.db
+*.sqlite
+*.sqlite3
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# IDE/Editor folders (optional)
+.vscode/
+.idea/
+
+# Log files (like the one passenger_wsgi made)
+*.log
