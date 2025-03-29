@@ -12,6 +12,26 @@
 </head>
 <body>
     <div class="container">
+
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4 rounded">
+            <div class="container-fluid">
+              <a class="navbar-brand" href="{{ url_for('index') }}">UTM Tracker</a>
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                  <li class="nav-item">
+                    {# Use request.endpoint to highlight the active page #}
+                    <a class="nav-link {% if request.endpoint == 'index' %}active{% endif %}" aria-current="page" href="{{ url_for('index') }}">Generator</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link {% if request.endpoint == 'show_stats' %}active{% endif %}" href="{{ url_for('show_stats') }}">Statistics</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </nav>
     <h1>Link Statistics</h1>
 
     {# Display flashed messages #}
