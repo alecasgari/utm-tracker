@@ -1,0 +1,89 @@
+{% extends 'base.html' %} {# Step 1: Inherit from base.html #}
+
+{# Step 2: Set the title for this specific page #}
+{% block title %}Register - UTM Tracker{% endblock %}
+
+{# Step 3: Define the main content for this page #}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6"> {# Adjust column width as needed #}
+        <div class="card shadow-sm"> {# Added a subtle shadow #}
+            <div class="card-header"><h2>Create Your Account</h2></div>
+            <div class="card-body">
+                {# Form posts back to the same URL #}
+                <form method="POST" action="" novalidate> {# novalidate disables browser validation #}
+                    {{ form.hidden_tag() }} {# IMPORTANT: Includes CSRF token and any other hidden fields #}
+
+                    {# Username Field #}
+                    <div class="mb-3">
+                        {{ form.username.label(class="form-label") }}
+                        {% if form.username.errors %}
+                            {{ form.username(class="form-control is-invalid", placeholder="Choose a unique username") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.username.errors %}<span>{{ error }}</span>{% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.username(class="form-control", placeholder="Choose a unique username") }}
+                        {% endif %}
+                    </div>
+
+                    {# Email Field #}
+                    <div class="mb-3">
+                        {{ form.email.label(class="form-label") }}
+                        {% if form.email.errors %}
+                            {{ form.email(class="form-control is-invalid", placeholder="Enter your email") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.email.errors %}<span>{{ error }}</span>{% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.email(class="form-control", placeholder="Enter your email") }}
+                        {% endif %}
+                    </div>
+
+                    {# Password Field #}
+                    <div class="mb-3">
+                        {{ form.password.label(class="form-label") }}
+                        {% if form.password.errors %}
+                            {{ form.password(class="form-control is-invalid", placeholder="Enter a secure password") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.password.errors %}<span>{{ error }}</span>{% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.password(class="form-control", placeholder="Enter a secure password") }}
+                        {% endif %}
+                    </div>
+
+                    {# Confirm Password Field #}
+                    <div class="mb-3">
+                        {{ form.confirm_password.label(class="form-label") }}
+                        {% if form.confirm_password.errors %}
+                            {{ form.confirm_password(class="form-control is-invalid", placeholder="Confirm your password") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.confirm_password.errors %}<span>{{ error }}</span>{% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.confirm_password(class="form-control", placeholder="Confirm your password") }}
+                        {% endif %}
+                    </div>
+
+                    {# Submit Button #}
+                    <div class="d-grid gap-2"> {# Use d-grid for full-width button #}
+                        {{ form.submit(class="btn btn-primary") }}
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer text-center py-3">
+                <small class="text-muted">
+                    Already have an account? <a href="{{ url_for('login') }}">Log In</a>
+                </small>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} {# End of content block #}
+
+{# Optional: Add page-specific scripts if needed #}
+{% block scripts %}
+{{ super() }} {# Include scripts from base if any #}
+{# Add any register-specific JS here #}
+{% endblock %}

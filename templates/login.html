@@ -1,0 +1,71 @@
+{% extends 'base.html' %} {# Step 1: Inherit from base.html #}
+
+{# Step 2: Set the title for this page #}
+{% block title %}Login - UTM Tracker{% endblock %}
+
+{# Step 3: Define the main content #}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6"> {# Adjust column width #}
+        <div class="card shadow-sm">
+             <div class="card-header"><h2>Login</h2></div>
+             <div class="card-body">
+                {# Form posts back to the same URL (the login route we'll create) #}
+                <form method="POST" action="" novalidate>
+                    {{ form.hidden_tag() }} {# CSRF Token #}
+
+                    {# Username Field #}
+                    <div class="mb-3">
+                        {{ form.username.label(class="form-label") }}
+                        {% if form.username.errors %}
+                            {{ form.username(class="form-control is-invalid", placeholder="Enter your username") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.username.errors %}<span>{{ error }}</span>{% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.username(class="form-control", placeholder="Enter your username") }}
+                        {% endif %}
+                    </div>
+
+                    {# Password Field #}
+                    <div class="mb-3">
+                        {{ form.password.label(class="form-label") }}
+                        {% if form.password.errors %}
+                            {{ form.password(class="form-control is-invalid", placeholder="Enter your password") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.password.errors %}<span>{{ error }}</span>{% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.password(class="form-control", placeholder="Enter your password") }}
+                        {% endif %}
+                    </div>
+
+                    {# Remember Me Checkbox #}
+                    <div class="mb-3 form-check">
+                         {{ form.remember(class="form-check-input") }}
+                         {{ form.remember.label(class="form-check-label") }}
+                         {# Errors for checkbox usually aren't needed unless validation fails #}
+                    </div>
+
+                    {# Submit Button #}
+                    <div class="d-grid gap-2">
+                        {{ form.submit(class="btn btn-primary") }}
+                    </div>
+                </form>
+            </div>
+             <div class="card-footer text-center py-3">
+                <small class="text-muted">
+                    Need an account? <a href="{{ url_for('register') }}">Sign Up Now</a>
+                </small>
+                {# Optional: Add forgot password link here later #}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} {# End content block #}
+
+{# Optional: Add page-specific scripts if needed #}
+{% block scripts %}
+{{ super() }} {# Include scripts from base if any #}
+{# Add any login-specific JS here #}
+{% endblock %}

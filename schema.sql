@@ -8,8 +8,10 @@ CREATE TABLE links (
   utm_campaign TEXT NOT NULL,
   utm_term TEXT,
   utm_content TEXT,
-  short_code TEXT,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  short_code TEXT UNIQUE,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  user_id INTEGER NOT NULL,
+  FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
 );
 
 CREATE TABLE clicks (
@@ -17,4 +19,12 @@ CREATE TABLE clicks (
   link_id INTEGER NOT NULL,
   clicked_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (link_id) REFERENCES links (id)
+);
+
+CREATE TABLE users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    username TEXT UNIQUE NOT NULL,
+    email TEXT UNIQUE NOT NULL,
+    password_hash TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
